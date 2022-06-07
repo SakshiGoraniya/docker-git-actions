@@ -8,19 +8,22 @@ on: #events on which to run your workflow $eg.everytime someone pushes pulls fro
 
 permissions:
   contents: read
-
+#jobs :- groups set of actions written under this ti be executed 
 jobs:
-  symfony-tests:
+  symfony-tests: #can be any 
     runs-on: ubuntu-latest
     steps:
     #  To automatically get bug fixes and new Php versions for shivammathur/setup-php,
     # change this to (see https://github.com/shivammathur/setup-php#bookmark-versioning):
     # uses: shivammathur/setup-php@v2
+
+    #whenver we refer to action we use "uses"
     - uses: shivammathur/setup-php@2cb9b829437ee246e9b3cac53555a39208ca6d28
       with:
         php-version: '8.0'
     - uses: actions/checkout@v3
     - name: Copy .env.test.local
+       #whenver we refer to command we use "run"
       run: php -r "file_exists('.env.test.local') || copy('.env.test', '.env.test.local');"
     - name: Cache Composer packages
       id: composer-cache
@@ -40,3 +43,10 @@ jobs:
       env:
         DATABASE_URL: sqlite:///%kernel.project_dir%/data/database.sqlite
       run: vendor/bin/phpunit
+    - name: Build and push docker image
+      uses: mr-smithers-excellent/docker-build-push@v5
+      with:
+        image: docker-hub-repo/image-name
+        registry: docker.io
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }} 
