@@ -9,8 +9,7 @@ RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
 
 # Config server time
-COPY ./config/timezone/timezone.conf /etc/timezone
-RUN rm /etc/localtime && dpkg-reconfigure -f noninteractive tzdata
+
 
 # Configuration nginx
 RUN rm /etc/nginx/sites-enabled/*
