@@ -12,7 +12,7 @@ RUN mv composer.phar /usr/local/bin/composer
 
 # Configuration php.ini
 RUN ln -s $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
-COPY ./config/php/php.ini $PHP_INI_DIR/conf.d/symfony.ini
+
 
 
 
